@@ -2,7 +2,7 @@
 
 ## Problem statement
 
-[One sentence.]
+An animation studio that renders HD films on a 100-CPU farm needs a renderer it can understand, fix and extend for years, because it must render a whole film in about two months with around ten previews per frame, but its previous tool broke in ways nobody on staff could explain.
 
 ## Client interview summary
 
@@ -20,7 +20,7 @@
 
 **Need:** A working solution delivered by early January.
 
-> **Q (a classmate):** "When should the projet be finalized"
+> **Q (a classmate):** "When should the project be finalized?"
 >
 > **A:** "Deadline: 5 of January, roughly 2 months."
 
@@ -82,7 +82,7 @@
 >
 > **A:** "To trust the solution we want to know why a bug happened and be able to resolve it."
 
-> **Q (a classmate):** "Waht was the problem on the last software ?"
+> **Q (a classmate):** "What was the problem with the last software?"
 >
 > **A:** "Figure anomaly ." (my notes; I understood: being able to detect and handle anomalies)
 
@@ -92,7 +92,7 @@
 
 **Need:** The studio and its partners must be able to maintain the renderer and add their own features for years.
 
-> **Q (a classmate):** "What would you like to do that you couldn't on your last solution ?"
+> **Q (a classmate):** "What would you like to do that you couldn't with your last solution?"
 >
 > **A:** "Add our own features."
 
@@ -117,28 +117,34 @@
 
 | Solution | Maker | Licence | Pricing (date checked) | Capabilities | Sources |
 |---|---|---|---|---|---|
-|   |   |   |   |   |   |
+| Arnold | Autodesk | Proprietary, subscription | Not visible on the vendor page; resellers list about $430–476 per seat per year (2026-11-16) | CPU and GPU path tracer, tightly integrated with Maya, widely used in film and VFX | [Autodesk](https://www.autodesk.com/products/arnold/buy), [CDW](https://www.cdw.com/product/arnold-2026-new-subscription-annual-1-seat/8331003) |
+| RenderMan | Pixar | Proprietary; free non-commercial licence | $595 per licence + $250 per year maintenance (2026-11-16) | Production path tracer (RIS, XPU for CPU+GPU), used on Pixar films; includes Tractor for render farms | [RenderMan store](https://renderman.pixar.com/store/) |
+| V-Ray | Chaos | Proprietary, subscription | Solo about $540 per year, Premium about $719–779 per year; sources disagree (2026-11-16) | CPU and GPU renderer, plug-ins for Maya, 3ds Max, Houdini and others; VFX and architecture | [CG Channel](https://www.cgchannel.com/2025/05/chaos-updates-v-ray-corona-and-enscape-subscription-plans/), [renderahouse](https://www.renderahouse.com/blog/vray-pricing) |
+| Redshift | Maxon | Proprietary, subscription | $289 per year in June 2025; no official 2026 price found (2026-11-16) | GPU-first renderer (also runs on CPU), built for speed | [CG Channel](https://www.cgchannel.com/2025/06/maxon-releases-redshift-2025-5/) |
+| Cycles | Blender Foundation | Open source (Apache 2.0) | Free | Path tracer built into Blender, CPU and GPU | [blender.org](https://www.blender.org/) |
+| pbrt-v4 | Pharr, Jakob, Humphreys | Open source (Apache 2.0) | Free | Research and teaching renderer, documented line by line in the book *Physically Based Rendering* | [pbrt.org](https://pbrt.org/), [GitHub](https://github.com/mmp/pbrt-v4) |
+| Mitsuba 3 | EPFL | Open source (BSD 3-Clause) | Free | Research renderer, differentiable rendering | [mitsuba-renderer.org](https://www.mitsuba-renderer.org/) |
 
-[A few lines: what do you conclude from this table?]
+Every commercial solution is powerful and proven in film production, but its code is closed: when something breaks, the studio cannot find out why, and it cannot add its own features. These are exactly the two problems the client described ("we want to know why a bug happened", "add our own features"). Licences also add up: on a 100-machine farm, a per-seat price is paid a hundred times. The open-source solutions solve the transparency problem, but they are built for research and teaching (pbrt, Mitsuba) or for one application (Cycles in Blender), not for this studio's pipeline. This explains why the client wants its own renderer: one it owns, can read, and can extend with its partners.
 
 ## What is ray tracing?
 
-[One paragraph, in your own words.]
+Ray tracing is a way to create an image by simulating how light travels in a 3D scene. The input is a scene: a camera, objects with their shapes and materials, and lights. For each pixel of the image, the renderer sends a ray from the camera into the scene and looks for the first object it hits. At that point, it works out the colour by checking which lights reach it (if another object is in the way, the point is in shadow) and how the material reacts to light. Then the ray can bounce: off a mirror, through glass, or in a random direction for a matte surface, and the same work starts again from the new point. Since one ray per pixel gives a noisy image, many rays are sent per pixel and averaged. The output is an image file. The cost grows with the resolution, the number of rays per pixel and the number of bounces, which is why rendering a whole film needs a fast renderer and many machines.
 
-**Sources:** [What you started from and the reference you would come back to, with links.]
+**Sources:** I started from [*Ray Tracing in One Weekend*](https://raytracing.github.io/books/RayTracingInOneWeekend.html) by Peter Shirley. The reference I would come back to is [*Physically Based Rendering: From Theory to Implementation*](https://pbr-book.org/) by Pharr, Jakob and Humphreys.
 
 ## What is C++?
 
 ### Programming paradigms
 
-[Your first understanding.]
+C++ is a multi-paradigm language. It supports procedural programming, object-oriented programming, generic programming (templates) and some functional programming. Compared with languages like JavaScript or Python, C++ is compiled to machine code and statically typed, so many errors are caught at compile time and the program runs much faster. Unlike Java, objects can live directly on the stack instead of always being references on the heap.
 
 ### What to watch out for
 
-[Your first understanding.]
+C++ leaves memory management to the programmer: there is no garbage collector. The classic traps are memory leaks, dangling pointers, reading outside an array, and using uninitialised variables. Many of these are "undefined behaviour": the program may work on one machine and crash on another, which is exactly the kind of bug the client cannot explain today. Copies can also be expensive if objects are passed by value without thinking. The modern answer is RAII: resources are tied to an object's lifetime, and smart pointers and containers free memory automatically. Compiler warnings and tools like sanitizers help find these bugs early.
 
 ### Shaping the domain model
 
-[Your first understanding.]
+The domain model should use the vocabulary of ray tracing, so that the client's team can read the code: classes such as `Vector3`, `Ray`, `Camera`, `Sphere`, `Plane`, `Material`, `Light`, `Scene` and `Image`. Small mathematical types like `Vector3` and `Ray` should be simple value types, copied cheaply and kept on the stack. Shapes share a common interface, so that a partner studio can add a new shape without changing the rest of the renderer, which follows the open/closed principle. Objects should be built by composition: a shape has a material, and a scene has shapes and lights. Ownership should be explicit, for example the scene owns its objects through `std::unique_ptr`, so memory is always freed correctly.
 
-**Sources:** [What you started from and the reference you would come back to, with links.]
+**Sources:** I started from [learncpp.com](https://www.learncpp.com/). The references I would come back to are [cppreference.com](https://en.cppreference.com/) and the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/) by Bjarne Stroustrup and Herb Sutter.
