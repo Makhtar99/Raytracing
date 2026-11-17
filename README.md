@@ -41,3 +41,7 @@ Tests use [Catch2](https://github.com/catchorg/Catch2) and run with CTest. We wo
 - [docs/adr/](docs/adr/): architecture decision records
 - [docs/discovery/](docs/discovery/): discovery report
 - [AGENTS.md](AGENTS.md): instructions for AI assistants
+
+## Licence
+
+[MIT](LICENSE)

@@ -6,4 +6,4 @@ In short: be respectful and welcoming, accept constructive criticism, and focus 
 
 ## Reporting
 
-Report unacceptable behaviour to [CONTACT: to be defined]. All reports will be reviewed and handled confidentially.
+Report unacceptable behaviour to the maintainer, [@Makhtar99](https://github.com/Makhtar99), through GitHub. All reports will be reviewed and handled confidentially.
