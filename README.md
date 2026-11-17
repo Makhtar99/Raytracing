@@ -32,10 +32,12 @@ cmake --build --preset windows-debug-clean   # clean
 
 ## Tests
 
-Tests use [Catch2](https://github.com/catchorg/Catch2) and run with CTest. We work test-first (TDD):
+Tests use [Catch2](https://github.com/catchorg/Catch2) and run with CTest. We work test-first (TDD). See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-1. Write a failing test in `tests/`.
-2. Write just enough code in `src/` to make it pass.
-3. Refactor, keeping the tests green.
+## Project documents
 
-A new test file must be added to the `add_executable` list in `tests/CMakeLists.txt`.
+- [CONTRIBUTING.md](CONTRIBUTING.md): set up, workflow and how to submit a change
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- [docs/adr/](docs/adr/): architecture decision records
+- [docs/discovery/](docs/discovery/): discovery report
+- [AGENTS.md](AGENTS.md): instructions for AI assistants

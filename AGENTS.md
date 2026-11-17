@@ -19,3 +19,7 @@ Our architecture decisions are in `docs/adr/`. Read them before changing the bui
 
 - Never go against an accepted ADR. To change a decision, write a new ADR with status Proposed and ask me.
 - Never set an ADR to Accepted.
+
+## Contributing
+
+See `CONTRIBUTING.md` for the workflow (TDD, ADRs, pull requests).

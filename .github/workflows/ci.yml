@@ -1,0 +1,18 @@
+# Builds and tests the project in the dev container. See docs/adr/0005-github-actions-ci.md.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test in the dev container
+        uses: devcontainers/ci@v0.3
+        with:
+          push: never
+          runCmd: make test
