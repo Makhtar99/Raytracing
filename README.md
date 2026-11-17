@@ -14,10 +14,20 @@ Open the project in its dev container: in VS Code, run **Dev Containers: Reopen 
 Then, in the container's terminal:
 
 ```sh
-cmake --preset unix-debug            # configure (first time only)
-cmake --build --preset unix-debug    # compile
-./build/unix-debug/raytracer         # run
-ctest --preset unix-debug            # test
+make build   # configure and compile
+make run     # build, then run
+make test    # build, then run the tests
+make clean   # delete the build folder
+```
+
+### Windows without the container
+
+You need Visual Studio 2022 ("Desktop development with C++"), CMake 3.25 or newer and Git. Use the presets:
+
+```powershell
+cmake --workflow --preset windows-debug      # configure, build and test
+cmake --build --preset windows-debug-run     # build, then run
+cmake --build --preset windows-debug-clean   # clean
 ```
 
 ## Tests

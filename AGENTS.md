@@ -5,11 +5,13 @@
 Run from the repository root, in the dev container.
 
 ```sh
-cmake --preset unix-debug          # configure (first time only)
-cmake --build --preset unix-debug  # build
-./build/unix-debug/raytracer       # run
-ctest --preset unix-debug          # test (build first: CTest does not compile)
+make build   # configure and compile
+make run     # build, then run
+make test    # build, then run the tests
+make clean   # delete the build folder
 ```
+
+On Windows without the container, use the presets (see README).
 
 ## Architecture decisions
 

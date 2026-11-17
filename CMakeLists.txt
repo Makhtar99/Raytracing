@@ -22,6 +22,9 @@ target_link_libraries(raytracer_core PRIVATE raytracer_warnings)
 add_executable(raytracer src/main.cpp)
 target_link_libraries(raytracer PRIVATE raytracer_core raytracer_warnings)
 
+# `run` target, used by the windows-debug-run preset.
+add_custom_target(run COMMAND raytracer DEPENDS raytracer USES_TERMINAL)
+
 option(RAYTRACER_BUILD_TESTS "Build the unit tests" ON)
 if(RAYTRACER_BUILD_TESTS)
   enable_testing()

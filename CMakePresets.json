@@ -75,6 +75,22 @@
       "name": "windows-release",
       "configurePreset": "windows",
       "configuration": "Release"
+    },
+    {
+      "name": "windows-debug-run",
+      "configurePreset": "windows",
+      "configuration": "Debug",
+      "targets": [
+        "run"
+      ]
+    },
+    {
+      "name": "windows-debug-clean",
+      "configurePreset": "windows",
+      "configuration": "Debug",
+      "targets": [
+        "clean"
+      ]
     }
   ],
   "testPresets": [
@@ -107,6 +123,26 @@
       "output": {
         "outputOnFailure": true
       }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-debug",
+      "displayName": "Configure, build and test (Windows Debug)",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows"
+        },
+        {
+          "type": "build",
+          "name": "windows-debug"
+        },
+        {
+          "type": "test",
+          "name": "windows-debug"
+        }
+      ]
     }
   ]
 }
