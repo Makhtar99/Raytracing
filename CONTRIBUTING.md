@@ -45,6 +45,10 @@ To change a decision, don't edit an accepted ADR: open a pull request with a new
 3. Run `make test`.
 4. Open a pull request and fill in the template. CI builds the project and runs the tests in the dev container: it must pass before merging.
 
+## Licence
+
+By contributing, you agree that your contributions are licensed under the [MIT licence](LICENSE).
+
 ## Code of conduct
 
 By taking part, you agree to follow our [code of conduct](CODE_OF_CONDUCT.md).
