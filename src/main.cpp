@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "camera.h"
-#include "colour.h"
+#include "render/camera.h"
+#include "colour/colour.h"
 #include "math/vector.h"
-#include "ray.h"
-#include "sphere.h"
+#include "geometry/ray.h"
+#include "geometry/sphere.h"
 
 int main() {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0));
