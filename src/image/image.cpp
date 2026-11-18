@@ -7,9 +7,13 @@ int Image::width() const { return _width; }
 int Image::height() const { return _height; }
 
 Colour Image::pixel(int column, int row) const {
-    return _pixels[row * _width + column];
+    return _pixels[index(column, row)];
 }
 
 void Image::setPixel(int column, int row, const Colour& colour) {
-    _pixels[row * _width + column] = colour;
+    _pixels[index(column, row)] = colour;
+}
+
+int Image::index(int column, int row) const {
+    return row * _width + column;
 }

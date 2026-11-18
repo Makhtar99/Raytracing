@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "colour/colour.h"
-
 #include "geometry/ray.h"
 #include "geometry/sphere.h"
 #include "image/image.h"
@@ -12,19 +11,20 @@
 #include "render/camera.h"
 #include "test_helpers.h"
 
-TEST_CASE("the camera's ray goes from the eye to the screen centre", "[camera]") {
+// The spike's tests: the one pixel of a 1 by 1 image is the centre of the screen.
+TEST_CASE("in a 1 by 1 image, the ray goes from the eye to the screen centre", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 2);
 
-    Ray ray = camera.rayThroughCentre();
+    Ray ray = camera.rayThroughPixel(0, 0, 1, 1);
 
     requireVectorsEqual(ray.origin(), Vector(0, 0, -1));
     requireVectorsEqual(ray.direction(), Vector(0, 0, 1));
 }
 
-TEST_CASE("the camera's ray has direction screen centre - eye", "[camera]") {
+TEST_CASE("in a 1 by 1 image, the ray has direction screen centre - eye", "[camera]") {
     Camera camera(Vector(1, 2, -1), Vector(4, 6, -1), 2);
 
-    Ray ray = camera.rayThroughCentre();
+    Ray ray = camera.rayThroughPixel(0, 0, 1, 1);
 
     requireVectorsEqual(ray.origin(), Vector(1, 2, -1));
     requireVectorsEqual(ray.direction(), Vector(3, 4, 0));
