@@ -1,6 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 #include "vector.h"
+
+using Catch::Matchers::WithinAbs;
 
 TEST_CASE("a + b adds each component", "[vector]") {
     Vector sum = Vector(3, 4, 0) + Vector(4, -3, 0);
@@ -59,4 +62,16 @@ TEST_CASE("dot multiplies in pairs, then adds", "[vector]") {
 TEST_CASE("length follows Pythagoras", "[vector]") {
     REQUIRE(Vector(3, -4, 0).length() == 5);
     REQUIRE(Vector(3, 4, 12).length() == 13);
+}
+
+TEST_CASE("normalised gives a vector of length 1", "[vector]") {
+    Vector unit = Vector(3, -4, 0).normalised();
+
+    REQUIRE_THAT(unit.x(), WithinAbs(0.6, 1e-9));
+    REQUIRE_THAT(unit.y(), WithinAbs(-0.8, 1e-9));
+    REQUIRE_THAT(unit.z(), WithinAbs(0, 1e-9));
+}
+
+TEST_CASE("normalised of (3, 4, 12) has length 1", "[vector]") {
+    REQUIRE_THAT(Vector(3, 4, 12).normalised().length(), WithinAbs(1, 1e-9));
 }
