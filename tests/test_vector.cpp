@@ -29,3 +29,11 @@ TEST_CASE("a - b subtracts each component", "[vector]") {
     REQUIRE(differenceWithZ.y() == 4);
     REQUIRE(differenceWithZ.z() == 4);
 }
+
+TEST_CASE("t * v scales each component", "[vector]") {
+    Vector scaled = 2.0 * Vector(3, -4, 1);
+
+    REQUIRE(scaled.x() == 6);
+    REQUIRE(scaled.y() == -8);
+    REQUIRE(scaled.z() == 2);
+}
