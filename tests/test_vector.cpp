@@ -37,3 +37,15 @@ TEST_CASE("t * v scales each component", "[vector]") {
     REQUIRE(scaled.y() == -8);
     REQUIRE(scaled.z() == 2);
 }
+
+TEST_CASE("O + t * D gives the point on the ray at t", "[vector]") {
+    Vector O(0, 8, 0);
+    Vector D(3, -4, 0);
+    double t = 2;
+
+    Vector point = O + t * D;
+
+    REQUIRE(point.x() == 6);
+    REQUIRE(point.y() == 0);
+    REQUIRE(point.z() == 0);
+}
