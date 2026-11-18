@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(Catch2)
 # Add new test files to this list.
 add_executable(raytracer_tests
   test_greeting.cpp
-  test_vector.cpp
+  math/test_vector.cpp
 )
 target_link_libraries(raytracer_tests PRIVATE raytracer_core raytracer_warnings Catch2::Catch2WithMain)
 
