@@ -12,7 +12,7 @@ We will describe the build with CMake (3.25 or newer) and its presets in `CMakeP
 
 ## Status
 
-Proposed
+Accepted
 
 ## Consequences
 

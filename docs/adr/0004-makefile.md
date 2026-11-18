@@ -12,7 +12,7 @@ We will add a `Makefile` at the root with four targets: `make build`, `make run`
 
 ## Status
 
-Proposed
+Accepted
 
 ## Consequences
 

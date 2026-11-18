@@ -12,7 +12,7 @@ We will develop in a dev container defined in `.devcontainer/`, based on `mcr.mi
 
 ## Status
 
-Proposed
+Accepted
 
 ## Consequences
 

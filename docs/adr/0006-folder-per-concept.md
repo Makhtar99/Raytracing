@@ -16,7 +16,7 @@ A folder is created with its first class, not before.
 
 ## Status
 
-Proposed
+Accepted
 
 ## Consequences
 
