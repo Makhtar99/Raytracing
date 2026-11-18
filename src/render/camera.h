@@ -2,6 +2,8 @@
 
 #include "math/vector.h"
 #include "geometry/ray.h"
+#include "geometry/sphere.h"
+#include "image/image.h"
 
 class Camera {
   public:
@@ -9,6 +11,7 @@ class Camera {
 
     Ray rayThroughCentre() const;
     Ray rayThroughPixel(int column, int row, int width, int height) const;
+    Image render(const Sphere& sphere, int width, int height) const;
 
   private:
     Vector _eye;

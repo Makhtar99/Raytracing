@@ -1,6 +1,13 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <string>
+#include <vector>
+
+#include "colour/colour.h"
+
 #include "geometry/ray.h"
+#include "geometry/sphere.h"
+#include "image/image.h"
 #include "math/vector.h"
 #include "render/camera.h"
 #include "test_helpers.h"
@@ -49,4 +56,36 @@ TEST_CASE("the bottom-left pixel's ray goes left and down", "[camera]") {
 
     requireVectorsEqual(ray.origin(), Vector(0, 0, -1));
     requireVectorsEqual(ray.direction(), Vector(-2, -1, 1));
+}
+
+TEST_CASE("render gives an image of the size asked for", "[camera]") {
+    Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
+    Sphere sphere(Vector(0, 0, 6), 5, Colour(1, 0, 0));
+
+    Image image = camera.render(sphere, 5, 3);
+
+    REQUIRE(image.width() == 5);
+    REQUIRE(image.height() == 3);
+}
+
+TEST_CASE("render colours the pixels whose ray hits the sphere: a plus", "[camera]") {
+    Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
+    Sphere sphere(Vector(0, 0, 6), 5, Colour(1, 0, 0));
+
+    Image image = camera.render(sphere, 5, 3);
+
+    std::vector<std::string> expected = {
+        "..#..",
+        ".###.",
+        "..#..",
+    };
+    for (int row = 0; row < 3; row++) {
+        for (int column = 0; column < 5; column++) {
+            if (expected[row][column] == '#') {
+                requireColoursEqual(image.pixel(column, row), Colour(1, 0, 0));
+            } else {
+                requireColoursEqual(image.pixel(column, row), Colour(0, 0, 0));
+            }
+        }
+    }
 }
