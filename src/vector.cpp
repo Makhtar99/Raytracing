@@ -21,13 +21,13 @@ double Vector::dot(const Vector& other) const {
 }
 
 double Vector::length() const {
-    return std::sqrt(_x * _x + _y * _y + _z * _z);
+    return std::sqrt(dot(*this));
 }
 
 Vector Vector::normalised() const {
     return (1.0 / length()) * (*this);
 }
 
-Vector operator*(double factor, const Vector& v) {
-    return Vector(factor * v.x(), factor * v.y(), factor * v.z());
+Vector operator*(double t, const Vector& v) {
+    return Vector(t * v.x(), t * v.y(), t * v.z());
 }

@@ -21,4 +21,4 @@ class Vector {
     double _z;
 };
 
-Vector operator*(double factor, const Vector& v);
+Vector operator*(double t, const Vector& v);
