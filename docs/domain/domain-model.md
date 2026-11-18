@@ -6,22 +6,19 @@ The concepts of the ray tracer and how they relate, taken from the client's expl
 
 ```mermaid
 classDiagram
-    Camera "1" --> "1" Screen : looks through
-    Screen "1" --> "*" Pixel : is divided into
     Camera "1" --> "*" Ray : sends one per pixel
     Ray "*" --> "1" Sphere : may hit
     Sphere "1" --> "1" Colour : has
-    Pixel "1" --> "1" Colour : takes
-    Image "1" --> "*" Pixel : is made of
-    Image "1" --> "*" Colour : holds
+    Camera ..> Image : renders
+    Image "1" --> "*" Colour : one per pixel
+    ImageSaver ..> Image : saves
+    PngSaver ..|> ImageSaver
     trace ..> Ray : follows
     trace ..> Sphere : asks
     class Camera {
         eye: Vector
-    }
-    class Screen {
-        width: int
-        height: int
+        screenCentre: Vector
+        screenWidth: double
     }
     class Ray {
         origin: Vector
@@ -32,9 +29,18 @@ classDiagram
         radius: double
     }
     class Colour {
-        red: double
-        green: double
-        blue: double
+        r: double
+        g: double
+        b: double
+    }
+    class Image {
+        width: int
+        height: int
+        pixel(column, row) Colour
+    }
+    class ImageSaver {
+        <<interface>>
+        save(image, path)
     }
 ```
 
@@ -45,15 +51,18 @@ classDiagram
 | Vector | Three numbers (x, y, z): a point or a direction in 3D |
 | Ray | A half-line: an origin and a direction. Its points are `O + t * D`, for `t ≥ 0` |
 | Camera | The eye, and the screen it looks through |
-| Pixel | One square of the screen, and of the final image |
+| Pixel | One square of the screen, and of the final image. Counted by column and row from the top left |
 | Sphere | A centre and a radius, with a colour |
 | Sky | The colour of a pixel whose ray hits nothing |
-| Image | The grid of coloured pixels, saved to a file |
+| Image | The grid of coloured pixels |
+| Saver | Writes an image to a file. `PngSaver` writes PNG with LodePNG |
 
 ## Decisions so far
 
 - A colour is a class of its own, not a Vector ([ADR 0007](../adr/0007-colour-class.md)).
 - `trace(ray, sphere)`, in `render/`, colours the pixel: the sphere's colour if the ray hits it, black otherwise.
+- `Camera::render` sends one ray per pixel and fills an `Image`. "The image saves itself" became "a saver saves it": `ImageSaver`, implemented by `PngSaver` ([ADR 0008](../adr/0008-png-output.md)).
+- Coordinates: x right, y up, z forward, pixels from the top left ([ADR 0009](../adr/0009-coordinates.md)).
 - A hit only counts in front of the ray's origin (`t > 0`). A ray that only touches the sphere counts as a hit, and so does a ray that starts inside it.
 
 ## Open questions
@@ -61,4 +70,3 @@ classDiagram
 - Are a point and a direction the same class? Adding two points does not make sense.
 - What should `normalised()` do with the zero vector `(0, 0, 0)`? Today it divides by zero. A ray with no direction makes no sense, so the check probably belongs where a ray is created.
 - Should Colour keep r, g and b between 0 and 1? Lights will add colours past 1: clamp them, or refuse them?
-- Which axes: x right, y up, z forward (left-handed, our choice so far), or looking along −z like *Ray Tracing in One Weekend* (right-handed)? It matters once pixel columns and rows become x and y.
