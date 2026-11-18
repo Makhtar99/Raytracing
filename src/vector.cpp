@@ -1,5 +1,7 @@
 #include "vector.h"
 
+#include <cmath>
+
 Vector::Vector(double x, double y, double z) : _x(x), _y(y), _z(z) {}
 
 double Vector::x() const { return _x; }
@@ -12,6 +14,14 @@ Vector Vector::operator+(const Vector& other) const {
 
 Vector Vector::operator-(const Vector& other) const {
     return Vector(_x - other._x, _y - other._y, _z - other._z);
+}
+
+double Vector::dot(const Vector& other) const {
+    return _x * other._x + _y * other._y + _z * other._z;
+}
+
+double Vector::length() const {
+    return std::sqrt(_x * _x + _y * _y + _z * _z);
 }
 
 Vector operator*(double factor, const Vector& v) {
