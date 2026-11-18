@@ -54,3 +54,4 @@ These are design decisions, recorded in an ADR once settled:
 - Is a colour a vector? It is three numbers too, but adding two colours does not mean what adding two directions means.
 - Are a point and a direction the same class? Adding two points does not make sense.
 - Who decides the colour of a pixel: the camera, the image or the main program?
+- What should `normalised()` do with the zero vector `(0, 0, 0)`? Today it divides by zero. A ray with no direction makes no sense, so the check probably belongs where a ray is created.
