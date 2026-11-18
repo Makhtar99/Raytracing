@@ -12,7 +12,7 @@ We will run a GitHub Actions workflow, `.github/workflows/ci.yml`, on every pull
 
 ## Status
 
-Proposed
+Accepted
 
 ## Consequences
 

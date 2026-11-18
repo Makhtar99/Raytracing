@@ -15,7 +15,7 @@ else()
 endif()
 
 # All real code lives in a library, so the app and the tests share it.
-add_library(raytracer_core src/greeting.cpp)
+add_library(raytracer_core src/greeting.cpp src/math/vector.cpp)
 target_include_directories(raytracer_core PUBLIC src)
 target_link_libraries(raytracer_core PRIVATE raytracer_warnings)
 
