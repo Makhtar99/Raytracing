@@ -11,9 +11,15 @@ FetchContent_MakeAvailable(Catch2)
 
 # Add new test files to this list.
 add_executable(raytracer_tests
-  test_greeting.cpp
+  test_helpers.cpp
   math/test_vector.cpp
+  colour/test_colour.cpp
+  geometry/test_ray.cpp
+  geometry/test_sphere.cpp
+  render/test_camera.cpp
+  render/test_trace.cpp
 )
+target_include_directories(raytracer_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(raytracer_tests PRIVATE raytracer_core raytracer_warnings Catch2::Catch2WithMain)
 
 # Registers each TEST_CASE with CTest.
