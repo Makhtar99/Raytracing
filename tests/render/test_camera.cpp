@@ -6,7 +6,7 @@
 #include "test_helpers.h"
 
 TEST_CASE("the camera's ray goes from the eye to the screen centre", "[camera]") {
-    Camera camera(Vector(0, 0, -1), Vector(0, 0, 0));
+    Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 2);
 
     Ray ray = camera.rayThroughCentre();
 
@@ -15,7 +15,7 @@ TEST_CASE("the camera's ray goes from the eye to the screen centre", "[camera]")
 }
 
 TEST_CASE("the camera's ray has direction screen centre - eye", "[camera]") {
-    Camera camera(Vector(1, 2, -1), Vector(4, 6, -1));
+    Camera camera(Vector(1, 2, -1), Vector(4, 6, -1), 2);
 
     Ray ray = camera.rayThroughCentre();
 
