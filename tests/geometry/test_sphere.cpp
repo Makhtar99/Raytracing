@@ -4,6 +4,7 @@
 #include "geometry/ray.h"
 #include "geometry/sphere.h"
 #include "math/vector.h"
+#include "test_helpers.h"
 
 TEST_CASE("a ray through the centre of a sphere hits it", "[sphere]") {
     Ray ray(Vector(0, 0, -1), Vector(0, 0, 1));
@@ -36,9 +37,5 @@ TEST_CASE("a sphere behind the ray's origin is missed", "[sphere]") {
 TEST_CASE("a sphere gives back its colour", "[sphere]") {
     Sphere sphere(Vector(0, 0, 9), 5, Colour(1, 0.5, 0));
 
-    Colour colour = sphere.colour();
-
-    REQUIRE(colour.r() == 1);
-    REQUIRE(colour.g() == 0.5);
-    REQUIRE(colour.b() == 0);
+    requireColoursEqual(sphere.colour(), Colour(1, 0.5, 0));
 }

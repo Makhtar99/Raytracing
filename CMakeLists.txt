@@ -16,7 +16,6 @@ endif()
 
 # All real code lives in a library, so the app and the tests share it.
 add_library(raytracer_core
-  src/greeting.cpp
   src/math/vector.cpp
   src/colour/colour.cpp
   src/geometry/ray.cpp
