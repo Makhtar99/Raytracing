@@ -13,6 +13,9 @@ classDiagram
     Sphere "1" --> "1" Colour : has
     Pixel "1" --> "1" Colour : takes
     Image "1" --> "*" Pixel : is made of
+    Image "1" --> "*" Colour : holds
+    trace ..> Ray : follows
+    trace ..> Sphere : asks
     class Camera {
         eye: Vector
     }
@@ -47,11 +50,15 @@ classDiagram
 | Sky | The colour of a pixel whose ray hits nothing |
 | Image | The grid of coloured pixels, saved to a file |
 
+## Decisions so far
+
+- A colour is a class of its own, not a Vector ([ADR 0007](../adr/0007-colour-class.md)).
+- `trace(ray, sphere)`, in `render/`, colours the pixel: the sphere's colour if the ray hits it, black otherwise.
+- A hit only counts in front of the ray's origin (`t > 0`). A ray that only touches the sphere counts as a hit, and so does a ray that starts inside it.
+
 ## Open questions
 
-These are design decisions, recorded in an ADR once settled:
-
-- Is a colour a vector? It is three numbers too, but adding two colours does not mean what adding two directions means.
 - Are a point and a direction the same class? Adding two points does not make sense.
-- Who decides the colour of a pixel: the camera, the image or the main program?
 - What should `normalised()` do with the zero vector `(0, 0, 0)`? Today it divides by zero. A ray with no direction makes no sense, so the check probably belongs where a ray is created.
+- Should Colour keep r, g and b between 0 and 1? Lights will add colours past 1: clamp them, or refuse them?
+- Which axes: x right, y up, z forward (left-handed, our choice so far), or looking along −z like *Ray Tracing in One Weekend* (right-handed)? It matters once pixel columns and rows become x and y.
