@@ -28,3 +28,36 @@ bool Sphere::isHitBy(const Ray& ray) const {
 
     return t1 > 0.0 || t2 > 0.0;
 }
+
+std::optional<Hit> Sphere::hit(const Ray& ray) const {
+    Vector O = ray.origin();
+    Vector D = ray.direction();
+    Vector C = _centre;
+
+    Vector L = O - C;
+    double a = D.dot(D);
+    double b = 2.0 * D.dot(L);
+    double c = L.dot(L) - _radius * _radius;
+
+    double discriminant = b * b - 4.0 * a * c;
+    if (discriminant < 0.0) {
+        return std::nullopt;
+    }
+
+    double root = std::sqrt(discriminant);
+    double t1 = (-b - root) / (2.0 * a);
+    double t2 = (-b + root) / (2.0 * a);
+
+    double t;
+    if (t1 > 0.0) {
+        t = t1;
+    } else if (t2 > 0.0) {
+        t = t2;
+    } else {
+        return std::nullopt;
+    }
+
+    Vector point = ray.at(t);
+    Vector normal = (1.0 / _radius) * (point - _centre);
+    return Hit{t, point, normal, _material};
+}
