@@ -7,6 +7,7 @@
 #include "geometry/ray.h"
 #include "geometry/sphere.h"
 #include "image/image.h"
+#include "material/material.h"
 #include "math/vector.h"
 #include "render/camera.h"
 #include "test_helpers.h"
@@ -60,7 +61,7 @@ TEST_CASE("the bottom-left pixel's ray goes left and down", "[camera]") {
 
 TEST_CASE("render gives an image of the size asked for", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
-    Sphere sphere(Vector(0, 0, 6), 5, Colour(1, 0, 0));
+    Sphere sphere(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0)));
 
     Image image = camera.render(sphere, 5, 3);
 
@@ -70,7 +71,7 @@ TEST_CASE("render gives an image of the size asked for", "[camera]") {
 
 TEST_CASE("render colours the pixels whose ray hits the sphere: a plus", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
-    Sphere sphere(Vector(0, 0, 6), 5, Colour(1, 0, 0));
+    Sphere sphere(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0)));
 
     Image image = camera.render(sphere, 5, 3);
 
