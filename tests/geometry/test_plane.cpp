@@ -45,6 +45,14 @@ TEST_CASE("a ray parallel to the floor misses it", "[plane]") {
     REQUIRE_FALSE(floor.hit(ray).has_value());
 }
 
+// Below the floor, n·(Q - O) is positive, so without the parallel check t would be +infinity, and "in front".
+TEST_CASE("a ray parallel to the floor, below it, misses it", "[plane]") {
+    Plane floor(Vector(0, 0, 0), Vector(0, 1, 0), Material(Colour(0, 1, 0)));
+    Ray ray(Vector(0, -2, 0), Vector(5, 0, 0));
+
+    REQUIRE_FALSE(floor.hit(ray).has_value());
+}
+
 TEST_CASE("a floor behind the ray is missed", "[plane]") {
     Plane floor(Vector(0, 0, 0), Vector(0, 1, 0), Material(Colour(0, 1, 0)));
     Ray ray(Vector(0, 8, 0), Vector(3, 4, 0));
