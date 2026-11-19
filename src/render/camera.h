@@ -1,8 +1,8 @@
 #pragma once
 
 #include "math/vector.h"
+#include "scene/scene.h"
 #include "geometry/ray.h"
-#include "geometry/sphere.h"
 #include "image/image.h"
 
 class Camera {
@@ -10,7 +10,7 @@ class Camera {
     Camera(const Vector& eye, const Vector& screenCentre, double screenWidth);
 
     Ray rayThroughPixel(int column, int row, int width, int height) const;
-    Image render(const Sphere& sphere, const Vector& toLight, int width, int height) const;
+    Image render(const Scene& scene, int width, int height) const;
 
   private:
     Vector _eye;

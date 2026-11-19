@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -10,6 +11,7 @@
 #include "material/material.h"
 #include "math/vector.h"
 #include "render/camera.h"
+#include "scene/scene.h"
 #include "test_helpers.h"
 
 // The spike's tests: the one pixel of a 1 by 1 image is the centre of the screen.
@@ -61,9 +63,10 @@ TEST_CASE("the bottom-left pixel's ray goes left and down", "[camera]") {
 
 TEST_CASE("render gives an image of the size asked for", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
-    Sphere sphere(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0)));
+    Scene scene(Vector(0, 0, -1));
+    scene.add(std::make_unique<Sphere>(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0))));
 
-    Image image = camera.render(sphere, Vector(0, 0, -1), 5, 3);
+    Image image = camera.render(scene, 5, 3);
 
     REQUIRE(image.width() == 5);
     REQUIRE(image.height() == 3);
@@ -71,9 +74,10 @@ TEST_CASE("render gives an image of the size asked for", "[camera]") {
 
 TEST_CASE("render shades the plus: 1 in the middle, 0.8 around", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
-    Sphere sphere(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0)));
+    Scene scene(Vector(0, 0, -1));
+    scene.add(std::make_unique<Sphere>(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0))));
 
-    Image image = camera.render(sphere, Vector(0, 0, -1), 5, 3);
+    Image image = camera.render(scene, 5, 3);
 
     std::vector<std::string> expected = {
         "..#..",
