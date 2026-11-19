@@ -50,3 +50,9 @@ TEST_CASE("a scene gives nothing when the ray misses every shape", "[scene]") {
 
     REQUIRE_FALSE(scene.nearestHit(ray).has_value());
 }
+
+TEST_CASE("a scene keeps the direction towards the light as a unit vector", "[scene]") {
+    Scene scene(Vector(0, 3, -4));
+
+    requireVectorsEqual(scene.toLight(), Vector(0, 0.6, -0.8));
+}
