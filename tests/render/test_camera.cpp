@@ -63,27 +63,29 @@ TEST_CASE("render gives an image of the size asked for", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
     Sphere sphere(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0)));
 
-    Image image = camera.render(sphere, 5, 3);
+    Image image = camera.render(sphere, Vector(0, 0, -1), 5, 3);
 
     REQUIRE(image.width() == 5);
     REQUIRE(image.height() == 3);
 }
 
-TEST_CASE("render colours the pixels whose ray hits the sphere: a plus", "[camera]") {
+TEST_CASE("render shades the plus: 1 in the middle, 0.8 around", "[camera]") {
     Camera camera(Vector(0, 0, -1), Vector(0, 0, 0), 5);
     Sphere sphere(Vector(0, 0, 6), 5, Material(Colour(1, 0, 0)));
 
-    Image image = camera.render(sphere, 5, 3);
+    Image image = camera.render(sphere, Vector(0, 0, -1), 5, 3);
 
     std::vector<std::string> expected = {
         "..#..",
-        ".###.",
+        ".#O#.",
         "..#..",
     };
     for (int row = 0; row < 3; row++) {
         for (int column = 0; column < 5; column++) {
-            if (expected[row][column] == '#') {
+            if (expected[row][column] == 'O') {
                 requireColoursEqual(image.pixel(column, row), Colour(1, 0, 0));
+            } else if (expected[row][column] == '#') {
+                requireColoursEqual(image.pixel(column, row), Colour(0.8, 0, 0));
             } else {
                 requireColoursEqual(image.pixel(column, row), Colour(0, 0, 0));
             }
